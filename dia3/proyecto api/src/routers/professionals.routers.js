@@ -9,8 +9,8 @@ router.get('/profesionales', profCtrl.getProfessional);
 
 router.post('/profesionales', profCtrl.postPro);
 
-router.put('/professionales', profCtrl.putPro);
+router.put('/profesionales', profCtrl.putPro);
 
-router.delete('/professionales', profCtrl.deletePro);
+router.delete('/profesionales', profCtrl.deletePro);
 
 module.exports = router;

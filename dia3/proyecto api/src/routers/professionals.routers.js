@@ -1,10 +1,10 @@
 const {Router} = require('express');
-const router = Router();
+const router = Router();//¿Qué es Router()? Es una extensión de las rutas de la aplicación
 const profCtrl = require("../controller/proArray.controller");
 //front:
-const frontCtrl = require("../index")
+// const frontCtrl = require("../index")
 
-router.get('/prueba', frontCtrl.getProfessionals)
+// router.get('/prueba', frontCtrl.getProfessionals)
 
 
 
@@ -12,7 +12,9 @@ router.get('/prueba', frontCtrl.getProfessionals)
 
 
 //ejercicios anteriores
-router.get('/profesionales', profCtrl.getProfessional);
+router.get('/profesionales', profCtrl.getProfessionals);
+
+router.get('/profesional', profCtrl.getProfessional);
 
 //router.get('/usuario/:id', profCtrl.getUserParams);
 

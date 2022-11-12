@@ -1,19 +1,19 @@
-const { response, request } = require("express");
+const { response, request } = require("express");//¿Qué hace esta línea?: Importa dos métodos de express. Esto se hace para informar las funciones del archivo.
 const {Professional} = require("../classes/professional")
 
 let proArray = [];
 
 function getProfessional (req,res){
-    let id = req.query.id;
+    let id = req.query.id;//para coger parámetros de la URL
     let respuesta;
-    respuesta = {error: true, codigo:200, resultado: proArray[id]};
+    respuesta = {error: false, codigo:200, resultado: proArray[id]};
     res.send(respuesta);
 }
 
-function getPros(req,res){//devuelve array de profesionales
+function getProfessionals(req,res){//devuelve array de profesionales
     let respuesta;
-    if(proArray.length != null){respuesta = proArray}
-    else{respuesta = {error: true, codigo:200, mensaje: "No hay profesionales"}}
+    if(proArray.length != 0) {respuesta = {error: false, codigo:200, resultado: proArray}}
+    else{respuesta = {error: true, codigo:200, mensaje: "No hay profesionales", resultado: proArray}}
 
     res.send(respuesta);
 }
@@ -56,4 +56,4 @@ function deletePro(req,res){
 
 
 
-module.exports = {getProfessional,postPro,getPros,putPro,deletePro}
+module.exports = {getProfessional,postPro,getProfessionals,putPro,deletePro}

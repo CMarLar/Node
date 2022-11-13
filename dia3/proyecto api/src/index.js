@@ -17,19 +17,48 @@ class Professional {
   }
 }
 
-let pro1 = new Professional("Pepito", 12, "Spanish", "Actor");
-let pro2 = new Professional("Manolete", 43, "Venezolano", "Writer");
-
-let professionals = [pro1, pro2];
 
 function getProfessionals() {
 let param = {
     headers: { "Content-type": "application/json; charset= UTF-8" },
     method: "GET",
 };
-  let url = "http://localhost:3000/profesionales"; //acuérdate de cambiar en routers
+   //acuérdate de cambiar en routers
+  let id = document.getElementById("proID").value;
+if(id){
+  
+  let url = "http://localhost:3000/profesional?id=" +id;
+  fetch(url, param)
+    .then((data) => {
+    return data.json();
+    })
+    .then(function (data) {
+    console.log(data);
+    if (data.error == false)
+    {
+        let shownData = document.getElementById('resultados')
+        
+        shownData.innerHTML = `<h6>Profesional:</h6>
+        <p>${data.resultado.name}</p> 
+        <p>${data.resultado.age}</p>
+        <p>${data.resultado.nationality}</p>
+        <p>${data.resultado.profession}</p>
+        <br>`       
+        // no hace falta poner data.resultado[id].name, porque trabajamos con un objeto, no con un array
+    }
+    else{alert("Error" + data.mensaje)}
+        // showToast("ERROR: " +  result.mensaje, "bg-danger")
+
+    })
+    .catch(function (error) {
+    console.log(error);
+    });
 
 
+
+}else{
+
+let url = "http://localhost:3000/profesionales"
 fetch(url, param)
     .then((data) => {
     return data.json();
@@ -57,6 +86,8 @@ fetch(url, param)
     });
 }
 
+}//fin de función
+
 function postProfessional() {
 let newName = document.getElementById("name").value;
 let newAge = document.getElementById("age").value;
@@ -68,7 +99,7 @@ let param = {headers: {"Content-type": "application/json; charset= UTF-8",},
     body: JSON.stringify({name: newName,age: newAge,nationality: newNationality,profession: newProfession})//MUY IMPORTANTE
     //introducimos este nuevo parámetro body para meter datos (https://developer.mozilla.org/es/docs/Web/API/Fetch_API/Using_Fetch)
 };
-  let url = "http://localhost:3000/profesionales"; //acuérdate de cambiar en routers
+  let url = "http://localhost:3000/profesionales"; 
 
 if (newName == "" ||
     newAge == "" ||
@@ -97,6 +128,7 @@ if (newName == "" ||
 
 }
 
+//en esta función y en Delete, lanza un mensaje de error "mensage: cannot set the properties of undefined"
 function putProfessional() {
 let newName = document.getElementById("name").value;
 let newAge = document.getElementById("age").value;
@@ -106,42 +138,54 @@ let id = document.getElementById("proID").value;
 
 let param = {headers: {"Content-type": "application/json; charset= UTF-8",},
     method: "PUT",
-    body: JSON.stringify({name: newName,age: newAge,nationality: newNationality,profession: newProfession})
+    body: JSON.stringify({name: newName,age: newAge,nationality: newNationality,profession: newProfession})//hay que poner para put?
 };
 
-let url = "http://localhost:3000/profesionales"
+let url = "http://localhost:3000/profesionales?id="+ id
 
   if (id != "") {
-
-    professionals[id].name = newName;
-    professionals[id].age = newAge;
-    professionals[id].nationality = newNationality;
-    professionals[id].profession = newProfession;
     fetch(url, param)
     .then((data) => {
     return data.json();
     })
     .then((data) => {
-        console.log(data);
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log(error);
     })
 
   } else {
-    console.log("Rellena el campo ID");
+    alert("Rellena el campo ID");
   }
 }
 
 function deleteProfessional() {
   let id = document.getElementById("proID").value;
 
-  if (id != "") {
-    professionals[id].name = null;
-    professionals[id].age = null;
-    professionals[id].nationality = null;
-    professionals[id].profession = null;
-    console.log("Profesional borrado");
-  } else {
-    console.log("Rellena el campo ID");
-  }
+  let param = {headers: {"Content-type": "application/json; charset= UTF-8",},
+    method: "DELETE",
+
+  };
+
+  let url = "http://localhost:3000/profesionales?id="+id
+
+    if (id) {
+      // professionals.splice(id,1);//borramos con splice el elemento igual al id.
+
+  fetch(url,param)
+  .then((data) =>{
+    return data.json()
+  })
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+    } else {
+      alert("Rellena el campo ID");
+    }
 }
 
 module.exports = {

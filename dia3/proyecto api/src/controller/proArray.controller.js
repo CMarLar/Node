@@ -3,10 +3,10 @@ const {Professional} = require("../classes/professional")
 
 let proArray = [];
 
-function getProfessional (req,res){
+function getProfessional(req,res){
     let id = req.query.id;//para coger parámetros de la URL
     let respuesta;
-    respuesta = {error: false, codigo:200, resultado: proArray[id]};
+    respuesta = {error: false, codigo:200, resultado: proArray[Number(id)]};
     res.send(respuesta);
 }
 
@@ -29,9 +29,11 @@ function postPro(req,res){//añade un profesional al array de profesionales
     res.send(respuesta);
 }
 
-function putPro (req,res){
+function putPro(req,res){
     let id = req.query.id;
+    if (id) {
     let respuesta;
+    console.log(req.body)
     proArray[id].name = req.body.name;
     proArray[id].age = req.body.age;
     proArray[id].nationality = req.body.nationality;
@@ -39,16 +41,17 @@ function putPro (req,res){
 
     respuesta = {error: false, codigo: 200, mensaje: "Profesional modificado", resultado: proArray}
     res.send(respuesta);
+}else{
+    respuesta = {error: true, codigo:200, mensaje: "Introduce un id"}
+    res.send(respuesta);
+}
 }
 
 function deletePro(req,res){
     let id = req.query.id;
     let respuesta;
 
-    proArray[id].name = null;
-    proArray[id].age = null;
-    proArray[id].nationality = null;
-    proArray[id].profession = null;
+    proArray.splice(id,1);
 
     respuesta = {error: false, codigo: 200,mensaje: "Profesional eliminado", resultado: proArray}
     res.send(respuesta);

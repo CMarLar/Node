@@ -123,6 +123,7 @@ if (newName == "" ||
     })
     .catch(function (error) {
     console.log(error);
+    alert(error);
     });
 }
 
@@ -150,9 +151,11 @@ let url = "http://localhost:3000/profesionales?id="+ id
     })
     .then((data) => {
       console.log(data);
+      alert("Profesional modificado")
     })
     .catch((error) => {
       console.log(error);
+      alert(error)
     })
 
   } else {
@@ -179,6 +182,7 @@ function deleteProfessional() {
   })
   .then((data) => {
     console.log(data);
+    alert("Profesional eliminado")
   })
   .catch((error) => {
     console.log(error);
